@@ -3,7 +3,6 @@ package com.example.spx.service;
 import com.example.spx.exception.UserDoesNotExistException;
 import com.example.spx.model.User;
 import com.example.spx.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,7 +27,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findUserByUsername(username);
         if(user == null) {
             throw new UserDoesNotExistException("User could not be found");
-            //throw new UsernameNotFoundException("User with username of ${username} not found");
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("app"));

@@ -4,7 +4,7 @@ package com.example.spx.constants;
 public final class SecurityConstants {
     //JWTs expire 36000 seconds (10 hours) after being issued
     public static final long JWT_EXPIRES_IN_SECONDS = 36000L;
-    //Default strength of hashing algorithm.
+    //Default strength of hashing algorithm. Should aim for ~ 1 second duration
     public static final int BCRYPT_HASHING_STRENGTH = 10;
     //private constructor so this class can not be instantiated
     private SecurityConstants() {
