@@ -3,6 +3,7 @@ package com.example.spx.controller;
 import com.example.spx.dto.AuthenticationRequestBody;
 import com.example.spx.dto.AuthenticationResponseBody;
 import com.example.spx.dto.CreateUserDTO;
+import com.example.spx.dto.UserCredentialsDTO;
 import com.example.spx.model.User;
 import com.example.spx.repository.UserRepository;
 import com.example.spx.service.UserAuthenticationService;
@@ -33,8 +34,8 @@ public class AuthController {
     @Autowired
     private JwtEncoder jwtEncoder;
 
-    @Autowired
-    UserAuthenticationService userAuthenticationService;
+    /*@Autowired
+    UserAuthenticationService userAuthenticationService;*/
 
     @Autowired
     private UserRepository userRepository;
@@ -44,7 +45,7 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping(path = "login")
-    public AuthenticationResponseBody login(@RequestBody AuthenticationRequestBody requestBody) throws Exception {
+    public AuthenticationResponseBody login(@RequestBody UserCredentialsDTO requestBody) throws Exception {
         User user = userRepository.findUserByUsername(requestBody.getUsername());
         System.out.println("Provided username: " + requestBody.getUsername() + " , Provided password: " + requestBody.getPassword());
 
@@ -78,8 +79,8 @@ public class AuthController {
 
     @PostMapping(path = "token")
     public String token(Authentication authentication) {
-        return userAuthenticationService.getToken(authentication);
-        /*Instant now = Instant.now();
+        //return userAuthenticationService.getToken(authentication);
+        Instant now = Instant.now();
         long expiry = 36000L;
         String scope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -91,7 +92,7 @@ public class AuthController {
                 .subject(authentication.getName())
                 .claim("scope", scope)
                 .build();
-        return this.jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet)).getTokenValue();*/
+        return this.jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet)).getTokenValue();
     }
 
     @GetMapping(path = "test")
@@ -101,14 +102,14 @@ public class AuthController {
 
     @PostMapping("create")
     public void createUser(@RequestBody CreateUserDTO userDto) {
-        /*System.out.println(this.passwordEncoder.encode("myPassword"));
+        System.out.println(this.passwordEncoder.encode("myPassword"));
         System.out.println(userDto.getUsername());
         System.out.println(userDto.getPassword());
         User user = new User();
         user.setUsername(userDto.getUsername());
         user.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
-        this.userRepository.save(user);*/
-        User newUser = userAuthenticationService.createUser(userDto);
-        System.out.println("User created: " + newUser);
+        this.userRepository.save(user);
+        /*User newUser = userAuthenticationService.createUser(userDto);
+        System.out.println("User created: " + newUser);*/
     }
 }

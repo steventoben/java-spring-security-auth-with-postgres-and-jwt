@@ -1,5 +1,6 @@
 package com.example.spx.service;
 
+import com.example.spx.exception.UserDoesNotExistException;
 import com.example.spx.model.User;
 import com.example.spx.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -26,7 +27,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByUsername(username);
         if(user == null) {
-            throw new UsernameNotFoundException("User with username of ${username} not found");
+            throw new UserDoesNotExistException("User could not be found");
+            //throw new UsernameNotFoundException("User with username of ${username} not found");
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("app"));

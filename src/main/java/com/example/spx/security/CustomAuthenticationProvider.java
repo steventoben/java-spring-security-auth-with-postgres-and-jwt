@@ -1,5 +1,6 @@
 package com.example.spx.security;
 
+import com.example.spx.exception.AuthException;
 import com.example.spx.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -51,7 +52,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         System.out.println("Passwords match test? f b: " + bCryptPasswordEncoder.matches("myPasswordd", realPassword));
 
         if(!passwordsMatch) {
-            throw new RuntimeException("Passwords do not match");
+            throw new AuthException("Password incorrect");
+            //throw new RuntimeException("Passwords do not match");
         }
         /*if(!password.equals(realPassword)) {
             throw new RuntimeException("Passwords do not match");
